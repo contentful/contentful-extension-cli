@@ -1,0 +1,41 @@
+{
+  "name": "contentful-widget-cli",
+  "author": "Contentful GmbH",
+  "version": "0.0.0",
+  "scripts": {
+    "test": "npm run lint && npm run test-unit && npm run test-integration",
+    "lint": "eslint lib/ bin/ test/",
+    "test-integration": "_mocha test/integration/**/*-test.js",
+    "test-unit": "_mocha test/unit/**/*-test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/contentful/contentful-widget-cli/issues"
+  },
+  "description": "CLI to manage UI Widgets on Contentful",
+  "devDependencies": {
+    "body-parser": "^1.14.1",
+    "chai": "^3.4.0",
+    "dirty-chai": "^1.2.2",
+    "express": "^4.13.3",
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0",
+    "temp": "^0.8.3"
+  },
+  "homepage": "https://github.com/contentful/contentful-widget-cli#readme",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/contentful/contentful-widget-cli.git"
+  },
+  "dependencies": {
+    "bluebird": "^3.0.5",
+    "lodash": "^3.10.1",
+    "request": "^2.65.0",
+    "url-join": "0.0.1",
+    "yargs": "^3.29.0"
+  },
+  "engines": {
+    "iojs": ">=2.5.0"
+  }
+}
