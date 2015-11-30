@@ -13,6 +13,13 @@
     "url": "https://github.com/contentful/contentful-widget-cli/issues"
   },
   "description": "CLI to manage UI Widgets on Contentful",
+  "bin": {
+    "contentful-widget": "./bin/contentful-widget",
+    "contentful-widget-create": "./bin/contentful-widget-create",
+    "contentful-widget-delete": "./bin/contentful-widget-delete",
+    "contentful-widget-read": "./bin/contentful-widget-read",
+    "contentful-widget-update": "./bin/contentful-widget-update"
+  },
   "devDependencies": {
     "body-parser": "^1.14.1",
     "chai": "^3.4.0",
