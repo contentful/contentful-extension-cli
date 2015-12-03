@@ -3,7 +3,8 @@
   "rules": {
     "no-multiple-empty-lines": [2, {"max": 3, "maxEOF": 1}],
     "no-trailing-spaces": 2,
-    "max-len": [2, 90, 4]
+    "max-len": [2, 100, 4],
+    "semi": [2, "always"],
   },
   "env": {
     "node": true
