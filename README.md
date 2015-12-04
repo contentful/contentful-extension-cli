@@ -1,4 +1,4 @@
-## Introduction
+## Introduction [![Build Status](https://travis-ci.com/contentful/contentful-widget-cli.svg?token=GuTGqA8WbzXbprUpRd2Y&branch=master)](https://travis-ci.com/contentful/contentful-widget-cli)
 Contentful allows customers to customize and tailor the UI using custom made widgets. Widgets have to be uploaded to Contentful in order to be able to use them in the UI.
 
 This repo hosts `contentful-widget` a Command Line Tool (CLI) developed to simplify the management tasks associated with custom widgets. With the CLI you can:
