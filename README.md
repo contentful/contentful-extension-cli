@@ -8,6 +8,12 @@ This repo hosts `contentful-widget` a Command Line Tool (CLI) developed to simpl
 - Read widgets
 - Delete widgets
 
+## Installation
+
+```
+npm install -g contentful/contentful-widget-cli
+```
+
 
 ## Available commands
 
