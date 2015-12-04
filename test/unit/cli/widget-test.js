@@ -5,7 +5,7 @@ var Bluebird = require('bluebird');
 var _ = require('lodash');
 
 var expect = require('../../helper').expect;
-var Widget = require('../../../lib/cli/widget');
+var Widget = require('../../../lib/widget');
 
 function buildWidgetPayload (options) {
   var widget = {};

@@ -2,4 +2,4 @@
 
 'use strict';
 
-require('../lib/cli/bin-helpers/command')('read');
+require('../lib/bin-helpers/command')('read');

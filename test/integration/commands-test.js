@@ -5,7 +5,7 @@ var _ = require('lodash');
 var Bluebird = require('bluebird');
 var fs = Bluebird.promisifyAll(require('fs'));
 
-var commandsFlags = require('../../lib/cli/bin-helpers/flags');
+var commandsFlags = require('../../lib/bin-helpers/flags');
 var command = require('./helpers/command');
 var chai = require('../helper');
 var expect = chai.expect;
