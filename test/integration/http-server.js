@@ -22,6 +22,7 @@ app.use(function (req, res, next) {
 app.all('/spaces/:space/widgets/:id', function (req, res, next) {
   if (req.params.id === 'not-found') {
     let error = buildError('NotFoundError', 'The resource can\'t be found');
+
     res.status(404);
     res.send(error);
     res.end();
@@ -62,6 +63,7 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
   } else {
     if (req.params.id === 'fail-update') {
       let error = buildError();
+
       res.status(500);
       res.send(error);
       res.end();
@@ -73,6 +75,7 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
       res.end();
     } else {
       let sys = widget.sys;
+
       widget = req.body;
       widget.sys = sys;
       widget.sys.version = widget.sys.version + 1;
@@ -88,6 +91,7 @@ app.get('/spaces/:space/widgets', function (req, res) {
 
   if (req.params.space === 'fail') {
     let error = buildError();
+
     res.status(500);
     res.send(error);
     res.end();
@@ -113,6 +117,7 @@ app.delete('/spaces/:space/widgets/:id', function (req, res) {
 
   if (req.params.id === 'fail-delete') {
     let error = buildError();
+
     res.status(500);
     res.send(error);
     res.end();
@@ -153,6 +158,7 @@ function buildError (id, message) {
 }
 
 var server;
+
 exports.start = function start () {
   server = app.listen(3000);
 };

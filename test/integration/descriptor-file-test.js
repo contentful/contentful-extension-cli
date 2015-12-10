@@ -49,6 +49,7 @@ describe('Descriptor file', function () {
 
   beforeEach(function () {
     let env = _.clone(process.env);
+
     env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN = 'lol-token';
 
     execOptions = {env: env};
@@ -116,6 +117,7 @@ describe('Descriptor file', function () {
           .catch(function (error) {
             let cause = `ENOENT: no such file or directory, stat '${customDescriptorPath}'`;
             let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+
             expect(error.error.code).to.eq(1);
             expect(error.stderr).to.match(msg);
           });
@@ -150,6 +152,7 @@ describe('Descriptor file', function () {
           .catch(function (error) {
             let cause = 'EACCES: permission denied, open \'.+\/descriptor\.json\'';
             let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+
             expect(error.error.code).to.eq(1);
             expect(error.stderr).to.match(msg);
           });
@@ -465,6 +468,7 @@ describe('Descriptor file', function () {
             .catch(function (error) {
               let cause = '.+\/widget\.json Unexpected token o';
               let regexp = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);
             });
@@ -486,6 +490,7 @@ describe('Descriptor file', function () {
             .then(assert.fail)
             .catch(function (error) {
               let regexp = new RegExp(`Failed to ${commandName} the widget`);
+
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);
             });
@@ -507,6 +512,7 @@ describe('Descriptor file', function () {
             .then(assert.fail)
             .catch(function (error) {
               let msg = new RegExp(`Failed to ${commandName} the widget: missing src and srcdoc in descriptor file`);
+
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(msg);
             });
@@ -582,6 +588,7 @@ describe('Descriptor file', function () {
               .catch(function (error) {
                 let cause = `ENOENT: no such file or directory, stat '${customDescriptorPath}'`;
                 let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+
                 expect(error.error.code).to.eq(1);
                 expect(error.stderr).to.match(msg);
               });
