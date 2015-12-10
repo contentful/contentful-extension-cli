@@ -51,7 +51,8 @@ app.post('/spaces/:space/widgets', function (req, res) {
 
 app.put('/spaces/:space/widgets/:id', function (req, res) {
   let widget = store[req.params.id];
-  let xVersion = parseInt(req.headers['x-contentful-version'], 10);
+  let versionInHeader = req.headers['x-contentful-version'];
+  let xVersion = versionInHeader ? parseInt(versionInHeader, 10) : undefined;
 
   if (!widget) {
     let widget = createWidget(req.params.space, req.params.id, req.body);
@@ -79,6 +80,8 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
       widget = req.body;
       widget.sys = sys;
       widget.sys.version = widget.sys.version + 1;
+      store[req.params.id] = widget; // Update the store
+
       res.json(widget);
       res.status(200);
       res.end();
@@ -88,6 +91,7 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
 
 app.get('/spaces/:space/widgets', function (req, res) {
   let widgets = _.filter(store, {sys: {space: {sys: {id: req.params.space}}}});
+  let response = { sys: {type: 'Array'}, total: widgets.length, items: widgets };
 
   if (req.params.space === 'fail') {
     let error = buildError();
@@ -99,7 +103,7 @@ app.get('/spaces/:space/widgets', function (req, res) {
   }
 
   res.status(200);
-  res.json(widgets);
+  res.json(response);
   res.end();
 });
 
