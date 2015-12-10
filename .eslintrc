@@ -5,6 +5,7 @@
     "no-trailing-spaces": 2,
     "max-len": [2, 100, 4],
     "semi": [2, "always"],
+    "newline-after-var": [2, "always"]
   },
   "env": {
     "node": true

@@ -9,6 +9,7 @@ var Widget = require('../../../lib/widget');
 
 function buildWidgetPayload (options) {
   var widget = {};
+
   _.extend(widget, _.pick(options, ['src', 'srcdoc', 'fieldTypes']));
 
   if (options.fieldTypes) {
@@ -44,6 +45,7 @@ function buildWidgetPayload (options) {
 
 describe('Widget', function () {
   let context, options, widget, http;
+
   beforeEach(function () {
     http = {
       post: sinon.stub().returns(Bluebird.resolve()),
@@ -85,6 +87,7 @@ describe('Widget', function () {
       describe('when a version has been provided', function () {
         it('it calls the http.put method including the version', function () {
           let payload = buildWidgetPayload({src: options.src});
+
           options = _.extend(options, {version: 66});
 
           return widget.save().then(function () {
