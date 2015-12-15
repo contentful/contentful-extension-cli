@@ -120,10 +120,10 @@ describe('Descriptor file', function () {
           .then(assert.fail)
           .catch(function (error) {
             let cause = `ENOENT: no such file or directory, stat '${customDescriptorPath}'`;
-            let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+            let msg = `Failed to ${commandName} the widget: ${cause}`;
 
             expect(error.error.code).to.eq(1);
-            expect(error.stderr).to.match(msg);
+            expect(error.stderr).to.include(msg);
           });
         });
       }
@@ -154,7 +154,7 @@ describe('Descriptor file', function () {
           return runCommands(commands, execOptions)()
           .then(assert.fail)
           .catch(function (error) {
-            let cause = 'EACCES: permission denied, open \'.+\/descriptor\.json\'';
+            let cause = `EACCES: permission denied, open \'.+\/descriptor\.json\'`;
             let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
 
             expect(error.error.code).to.eq(1);
@@ -533,7 +533,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let regexp = new RegExp(`Failed to ${commandName} the widget`);
+              let regexp = new RegExp(`Failed to ${commandName} the widget: missing id in descriptor file`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);

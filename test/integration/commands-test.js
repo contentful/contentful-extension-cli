@@ -228,7 +228,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 123, 'fail');
+      let msg = serverErrorMsg('put', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -247,7 +247,7 @@ describe('Commands', function () {
 
       it('reports the error when the API request fails', function () {
         let cmd = `create --space-id 123 --name lol --srcdoc ${file} --field-types Symbol --id fail --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 123, 'fail');
+        let msg = serverErrorMsg('put', 'ServerError');
 
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
@@ -363,14 +363,14 @@ describe('Commands', function () {
 
     it('reports when the widget can not be found', function () {
       let cmd = 'read --space-id 123 --id not-found --host http://localhost:3000';
-      let msg = notFoundMsg('get', 123, 'not-found');
+      let msg = notFoundMsg('get', 'NotFoundError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('reports the error when the API request fails', function () {
       let cmd = 'read --space-id 123 --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 123, 'fail');
+      let msg = serverErrorMsg('get', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -418,7 +418,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (reading all widgets)', function () {
       let cmd = 'read --space-id fail --all --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 'fail');
+      let msg = serverErrorMsg('get', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -531,7 +531,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (without version, reading current)', function () {
       let cmd = 'update --space-id 123 --name lol --src lol.com --field-types Symbol --id fail --force --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 123, 'fail');
+      let msg = serverErrorMsg('get', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -539,7 +539,7 @@ describe('Commands', function () {
     it('reports the error when the API request fails (without version)', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name lol --id fail-update --src foo.com --field-types Symbol --force --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 123, 'fail-update');
+      let msg = serverErrorMsg('put', 'ServerError');
 
       return command(createCmd, execOptions)
         .then(function () {
@@ -549,7 +549,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (with version)', function () {
       let cmd = 'update --space-id 123 --name lol --src lol.com --version 1 --field-types Symbol --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 123, 'fail');
+      let msg = serverErrorMsg('put', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -722,7 +722,7 @@ describe('Commands', function () {
       it('reports the error when the API request fails (without version)', function () {
         let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
         let updateCmd = `update --space-id 123 --name lol --field-types Symbol --id fail-update --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 123, 'fail-update');
+        let msg = serverErrorMsg('put', 'ServerError');
 
         return command(createCmd, execOptions)
           .then(function () {
@@ -732,7 +732,7 @@ describe('Commands', function () {
 
       it('reports the error when the API request fails (without version, reading current)', function () {
         let updateCmd = `update --space-id 123 --name lol --field-types Symbol --id fail --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('get', 123, 'fail');
+        let msg = serverErrorMsg('get', 'ServerError');
 
         return expectErrorAndMessage(updateCmd, execOptions, msg);
       });
@@ -740,7 +740,7 @@ describe('Commands', function () {
       it('reports the error when the API request fails (with version)', function () {
         let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
         let updateCmd = `update --space-id 123 --name lol --src lol.com --version 1 --field-types Symbol --id fail-update --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 123, 'fail-update');
+        let msg = serverErrorMsg('put', 'ServerError');
 
         return command(createCmd, execOptions)
           .then(function () {
@@ -884,7 +884,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (without version, reading current)', function () {
       let cmd = 'delete --space-id 123 --id fail --force --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 123, 'fail');
+      let msg = serverErrorMsg('get', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -892,7 +892,7 @@ describe('Commands', function () {
     it('reports the error when the API request fails (without version, deleting)', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-delete --host http://localhost:3000';
       let deleteCmd = 'delete --space-id 123 --id fail-delete --force --host http://localhost:3000';
-      let msg = serverErrorMsg('delete', 123, 'fail-delete');
+      let msg = serverErrorMsg('delete', 'ServerError');
 
       return command(createCmd, execOptions)
         .then(function () {
@@ -916,7 +916,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (with version)', function () {
       let deleteCmd = 'delete --space-id 123 --version 1 --id fail-delete --host http://localhost:3000';
-      let msg = serverErrorMsg('delete', 123, 'fail-delete');
+      let msg = serverErrorMsg('delete', 'ServerError');
 
       return expectErrorAndMessage(deleteCmd, execOptions, msg);
     });
@@ -977,45 +977,26 @@ describe('Commands', function () {
 });
 
 function expectErrorAndMessage (commandString, execOptions, errorMessage) {
-  let commandName = commandString.match(/^(\w+)/)[1];
-  let regexp = errorMessageRegExp(commandName, errorMessage);
-
   return command(commandString, execOptions)
     .then(assert.fail)
     .catch(function (error) {
       expect(error.error.code).to.eq(1);
-      expect(error.stderr).to.match(regexp);
+      expect(error.stderr).to.have.string(errorMessage);
     });
 }
 
-function resourceUrlRegexp (spaceId, id) {
-  let url = `http://localhost:3000/spaces/${spaceId}/widgets`;
-
-  if (id) {
-    url = `${url}/${id}`;
-  }
-
-  url = `${url}[\\w?=_-]+`;
-
-  return url;
-}
-
 function notFoundMsg (method, spaceId, id) {
-  let url = resourceUrlRegexp(spaceId, id);
-
-  return httpError(method, url, 'The resource can\'t be found');
+  return httpError(method, 'NotFoundError', 'The resource can\'t be found');
 }
 
-function serverErrorMsg (method, spaceId, id) {
-  let url = resourceUrlRegexp(spaceId, id);
+function serverErrorMsg (method, errorCode) {
+  let details = 'Server failed to fulfill the request';
 
-  return httpError(method, url, 'Server failed to fulfill the request');
+  return httpError(method, errorCode, details);
 }
 
-function httpError (method, pathRegexp, details) {
-  return `${method} ${pathRegexp} ${details}`;
-}
+function httpError (method, errorCode, details) {
+  let link = 'See https://www.contentful.com/developers/docs/references/errors for more information\n';
 
-function errorMessageRegExp (command, details) {
-  return new RegExp(`Failed to ${command} the widget: ${details}`);
+  return `${method.toUpperCase()} request failed (${errorCode} Error)\n${details}\n${link}`;
 }

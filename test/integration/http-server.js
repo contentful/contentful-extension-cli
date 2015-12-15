@@ -33,7 +33,7 @@ app.all('/spaces/:space/widgets/:id', function (req, res, next) {
     let error = buildError();
 
     res.status(500);
-    res.json(error);
+    res.send(error);
     res.end();
     return;
   }
