@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.1.1 - 2016-01-08
+### Changed
+- Update contentful-management
+
 ## v1.1.0 - 2015-12-21
 ### Changed
 - Display friendly error messages from server
