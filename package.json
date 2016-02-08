@@ -1,7 +1,7 @@
 {
   "name": "contentful-widget-cli",
   "author": "Contentful GmbH",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "scripts": {
     "test": "npm run lint && npm run test-unit && npm run test-integration",
     "lint": "eslint lib/ bin/ test/",
