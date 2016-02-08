@@ -11,7 +11,7 @@ This repo hosts `contentful-widget` a Command Line Tool (CLI) developed to simpl
 ## Installation
 
 ```
-npm install -g contentful/contentful-widget-cli
+npm install -g contentful-widget-cli
 ```
 
 
