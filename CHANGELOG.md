@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.1.2 - 2016-02-08
+### Changed
+- Release the package to the public
+
 ## v1.1.1 - 2016-01-08
 ### Changed
 - Update contentful-management
