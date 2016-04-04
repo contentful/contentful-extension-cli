@@ -66,9 +66,9 @@ src | ** | String | URL where the widget bundle can be found
 srcdoc | ** | String | Widget bundle serialized as a string
 sidebar | no | Boolean | Controls the location of the widget. If `true` it will be rendered on the sidebar
 
-\* One of `src` or `srcdoc` have to be present
+\* Valid field types are: `Symbol`, `Symbols`, `Text`, `Integer`, `Number`, `Date`, `Boolean`, `Object`, `Entry`, `Entries`, `Asset`, `Assets`
 
-\** Valid field types are: `Symbol`, `Symbols`, `Text`, `Integer`, `Number`, `Date`, `Boolean`, `Object`, `Entry`, `Entries`, `Asset`, `Assets`
+\** One of `src` or `srcdoc` have to be present
 
 #### Specifying widget properties
 
