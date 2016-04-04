@@ -63,12 +63,14 @@ Property | Required| Type | Description
 name | yes | String | Widget name
 fieldTypes | yes | List * | Field types where a widget can be used
 src | ** | String | URL where the widget bundle can be found
-srcdoc | ** | String | Widget bundle serialized as a string
+srcdoc | ** | String | Widget bundle serialized as a string.
 sidebar | no | Boolean | Controls the location of the widget. If `true` it will be rendered on the sidebar
 
 \* Valid field types are: `Symbol`, `Symbols`, `Text`, `Integer`, `Number`, `Date`, `Boolean`, `Object`, `Entry`, `Entries`, `Asset`, `Assets`
 
 \** One of `src` or `srcdoc` have to be present
+
+Note: When a widget is 3rd party hosted, relative links in the root HTML document are supported as expected. However, when serialized and uploaded as a string to Contentful, all local dependencies have to be inlined into the file specified for `src`.
 
 #### Specifying widget properties
 
