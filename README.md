@@ -70,6 +70,8 @@ sidebar | no | Boolean | Controls the location of the widget. If `true` it will 
 
 \** One of `src` or `srcdoc` have to be present
 
+Note: When a widget is 3rd party hosted, relative links in the root HTML document are supported as expected. However, when serialized and uploaded as a string to Contentful, all local dependencies have to be manually inlined into the file specified for `src`. The command line tool does not take care of link resolving and inlining of referenced local resources.
+
 #### Specifying widget properties
 
 Subcommands that create of modify a widgets (`create` and `upload`) accept the properties for the widget in two forms: command line options or a JSON file.
