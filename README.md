@@ -61,7 +61,7 @@ The following table describes the properties that can be set on a widget.
 Property | Required| Type | Description
 ---------|---------|------|------------
 name | yes | String | Widget name
-fieldTypes | yes | List * | Field types where a widget can be used
+fieldTypes | yes | Array\<String\> * | Field types where a widget can be used
 src | ** | String | URL where the widget bundle can be found
 srcdoc | ** | String | Widget bundle serialized as a string
 sidebar | no | Boolean | Controls the location of the widget. If `true` it will be rendered on the sidebar
@@ -71,6 +71,8 @@ sidebar | no | Boolean | Controls the location of the widget. If `true` it will 
 \** One of `src` or `srcdoc` have to be present
 
 Note: When a widget is 3rd party hosted, relative links in the root HTML document are supported as expected. However, when serialized and uploaded as a string to Contentful, all local dependencies have to be manually inlined into the file specified for `src`. The command line tool does not take care of link resolving and inlining of referenced local resources.
+
+Note: The maximal length of a string used with the `srcdoc` property is 200kB. Use [HTML minifier with `minifyJS` option](https://www.npmjs.com/package/html-minifier) and consider CDN sources for libraries that your widget is depending on.
 
 #### Specifying widget properties
 
