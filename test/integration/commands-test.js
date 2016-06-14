@@ -228,7 +228,28 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 'ServerError');
+      let msg = serverErrorMsg('put', 'create', 'ServerError');
+
+      return expectErrorAndMessage(cmd, execOptions, msg);
+    });
+
+    it('reports the error when supplied name is too long', function () {
+      let cmd = 'create --space-id 123 --name imagine-there-is-300-chars --src lol.com --field-types Symbol --id too-long-name --host http://localhost:3000';
+      let msg = httpError('put', 'create', 'ValidationFailed', 'Provide a valid widget name (1-255 characters).');
+
+      return expectErrorAndMessage(cmd, execOptions, msg);
+    });
+
+    it('reports the error when invalid field type is provided', function () {
+      let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Lol --host http://localhost:3000';
+      let msg = httpError('post', 'create', 'ValidationFailed', 'The "fieldTypes" widget property expects: Symbol,Yolo');
+
+      return expectErrorAndMessage(cmd, execOptions, msg);
+    });
+
+    it('reports an unknown validation error', function () {
+      let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id so-invalid --host http://localhost:3000';
+      let msg = httpError('put', 'create', 'ValidationFailed', 'An unknown validation error occurred.');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -247,14 +268,21 @@ describe('Commands', function () {
 
       it('reports the error when the API request fails', function () {
         let cmd = `create --space-id 123 --name lol --srcdoc ${file} --field-types Symbol --id fail --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 'ServerError');
+        let msg = serverErrorMsg('put', 'create', 'ServerError');
 
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
 
       it('reports the error when the file does not exist', function () {
         let cmd = 'create --space-id 123 --name lol --field-types Symbol --srcdoc some-unexisting-file --host http://localhost:3000';
-        let msg = 'ENOENT: no such file or directory, open \'some-unexisting-file\'';
+        let msg = 'Cannot read the file defined as the "srcdoc" property (some-unexisting-file)';
+
+        return expectErrorAndMessage(cmd, execOptions, msg);
+      });
+
+      it('reports the error when the file is too big', function () {
+        let cmd = `create --space-id 123 --name lol --field-types Symbol --srcdoc ${file} --host http://localhost:3000 --id too-big`;
+        let msg = 'The "srcdoc" widget property must have at most 7777 characters.';
 
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
@@ -363,14 +391,14 @@ describe('Commands', function () {
 
     it('reports when the widget can not be found', function () {
       let cmd = 'read --space-id 123 --id not-found --host http://localhost:3000';
-      let msg = notFoundMsg('get', 'NotFoundError');
+      let msg = notFoundMsg('get', 'read');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('reports the error when the API request fails', function () {
       let cmd = 'read --space-id 123 --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 'ServerError');
+      let msg = serverErrorMsg('get', 'read', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -418,7 +446,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (reading all widgets)', function () {
       let cmd = 'read --space-id fail --all --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 'ServerError');
+      let msg = serverErrorMsg('get', 'read', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -531,7 +559,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (without version, reading current)', function () {
       let cmd = 'update --space-id 123 --name lol --src lol.com --field-types Symbol --id fail --force --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 'ServerError');
+      let msg = serverErrorMsg('get', 'update', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -539,7 +567,7 @@ describe('Commands', function () {
     it('reports the error when the API request fails (without version)', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name lol --id fail-update --src foo.com --field-types Symbol --force --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 'ServerError');
+      let msg = serverErrorMsg('put', 'update', 'ServerError');
 
       return command(createCmd, execOptions)
         .then(function () {
@@ -549,7 +577,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (with version)', function () {
       let cmd = 'update --space-id 123 --name lol --src lol.com --version 1 --field-types Symbol --id fail --host http://localhost:3000';
-      let msg = serverErrorMsg('put', 'ServerError');
+      let msg = serverErrorMsg('put', 'update', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -722,7 +750,7 @@ describe('Commands', function () {
       it('reports the error when the API request fails (without version)', function () {
         let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
         let updateCmd = `update --space-id 123 --name lol --field-types Symbol --id fail-update --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 'ServerError');
+        let msg = serverErrorMsg('put', 'update', 'ServerError');
 
         return command(createCmd, execOptions)
           .then(function () {
@@ -732,7 +760,7 @@ describe('Commands', function () {
 
       it('reports the error when the API request fails (without version, reading current)', function () {
         let updateCmd = `update --space-id 123 --name lol --field-types Symbol --id fail --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('get', 'ServerError');
+        let msg = serverErrorMsg('get', 'update', 'ServerError');
 
         return expectErrorAndMessage(updateCmd, execOptions, msg);
       });
@@ -740,7 +768,7 @@ describe('Commands', function () {
       it('reports the error when the API request fails (with version)', function () {
         let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-update --host http://localhost:3000';
         let updateCmd = `update --space-id 123 --name lol --src lol.com --version 1 --field-types Symbol --id fail-update --srcdoc ${file} --force --host http://localhost:3000`;
-        let msg = serverErrorMsg('put', 'ServerError');
+        let msg = serverErrorMsg('put', 'update', 'ServerError');
 
         return command(createCmd, execOptions)
           .then(function () {
@@ -750,7 +778,7 @@ describe('Commands', function () {
 
       it('reports the error when the file does not exist', function () {
         let cmd = 'update --space-id 123 --name lol --field-types Symbol --id 456 --srcdoc some-unexisting-file --force --host http://localhost:3000';
-        let msg = 'ENOENT: no such file or directory, open \'some-unexisting-file\'';
+        let msg = 'Cannot read the file defined as the "srcdoc" property (some-unexisting-file)';
 
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
@@ -884,7 +912,7 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (without version, reading current)', function () {
       let cmd = 'delete --space-id 123 --id fail --force --host http://localhost:3000';
-      let msg = serverErrorMsg('get', 'ServerError');
+      let msg = serverErrorMsg('get', 'delete', 'ServerError');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -892,7 +920,7 @@ describe('Commands', function () {
     it('reports the error when the API request fails (without version, deleting)', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id fail-delete --host http://localhost:3000';
       let deleteCmd = 'delete --space-id 123 --id fail-delete --force --host http://localhost:3000';
-      let msg = serverErrorMsg('delete', 'ServerError');
+      let msg = serverErrorMsg('delete', 'delete', 'ServerError');
 
       return command(createCmd, execOptions)
         .then(function () {
@@ -902,21 +930,21 @@ describe('Commands', function () {
 
     it('reports the error when the API request fails (without version, not found)', function () {
       let deleteCmd = 'delete --space-id 123 --force --id not-found --host http://localhost:3000';
-      let msg = notFoundMsg('get', 123, 'not-found');
+      let msg = notFoundMsg('get', 'delete');
 
       return expectErrorAndMessage(deleteCmd, execOptions, msg);
     });
 
     it('reports the error when the API request fails (with version, not found)', function () {
       let deleteCmd = 'delete --space-id 123 --version 1 --id not-found --host http://localhost:3000';
-      let msg = notFoundMsg('delete', 123, 'not-found');
+      let msg = notFoundMsg('delete', 'delete');
 
       return expectErrorAndMessage(deleteCmd, execOptions, msg);
     });
 
     it('reports the error when the API request fails (with version)', function () {
       let deleteCmd = 'delete --space-id 123 --version 1 --id fail-delete --host http://localhost:3000';
-      let msg = serverErrorMsg('delete', 'ServerError');
+      let msg = serverErrorMsg('delete', 'delete', 'ServerError');
 
       return expectErrorAndMessage(deleteCmd, execOptions, msg);
     });
@@ -985,18 +1013,24 @@ function expectErrorAndMessage (commandString, execOptions, errorMessage) {
     });
 }
 
-function notFoundMsg (method, spaceId, id) {
-  return httpError(method, 'NotFoundError', 'The resource can\'t be found');
+function notFoundMsg (method, op) {
+  let reasons = ['Check used CMA access token / space ID combination.'];
+
+  if (method !== 'post') {
+    reasons.push('Check the widget ID.');
+  }
+
+  return httpError(method, op, 'NotFound', reasons.join('\n'));
 }
 
-function serverErrorMsg (method, errorCode) {
-  let details = 'Server failed to fulfill the request';
+function serverErrorMsg (method, op, errorCode) {
+  let details = 'Server failed to fulfill the request.';
 
-  return httpError(method, errorCode, details);
+  return httpError(method, op, errorCode, details);
 }
 
-function httpError (method, errorCode, details) {
-  let link = 'See https://www.contentful.com/developers/docs/references/errors for more information\n';
+function httpError (method, op, errorCode, details) {
+  let link = 'See https://www.contentful.com/developers/docs/references/errors for more information.\n';
 
-  return `${method.toUpperCase()} request failed (${errorCode} Error)\n${details}\n${link}`;
+  return `${method.toUpperCase()} (${op}) request failed because of ${errorCode} error.\n${details}\n${link}`;
 }
