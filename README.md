@@ -62,17 +62,23 @@ Property | Required| Type | Description
 ---------|---------|------|------------
 name | yes | String | Widget name
 fieldTypes | yes | Array\<String\> * | Field types where a widget can be used
-src | ** | String | URL where the widget bundle can be found
-srcdoc | ** | String | Widget bundle serialized as a string
+src | ** | String | URL where the root HTML document of the widget can be found
+srcdoc | ** | String | Path to the local widget HTML document
 sidebar | no | Boolean | Controls the location of the widget. If `true` it will be rendered on the sidebar
 
 \* Valid field types are: `Symbol`, `Symbols`, `Text`, `Integer`, `Number`, `Date`, `Boolean`, `Object`, `Entry`, `Entries`, `Asset`, `Assets`
 
 \** One of `src` or `srcdoc` have to be present
 
-Note: When a widget is 3rd party hosted, relative links in the root HTML document are supported as expected. However, when serialized and uploaded as a string to Contentful, all local dependencies have to be manually inlined into the file specified for `src`. The command line tool does not take care of link resolving and inlining of referenced local resources.
+#### Difference between `src` and `srcdoc` properties
 
-Note: The maximal length of a string used with the `srcdoc` property is 200kB. Use [HTML minifier with `minifyJS` option](https://www.npmjs.com/package/html-minifier) and consider CDN sources for libraries that your widget is depending on.
+When using `src` property, a widget is considered 3rd party hosted. Relative links in the root HTML document are supported as expected.
+
+When using `srcdoc` property, a widget is considered internally hosted. A file being pointed by the `srcdoc` property will be loaded and uploaded as a string to Contentful. All local dependencies have to be manually inlined into the file. The command line tool does not take care of link resolving and inlining of referenced local resources. The maximal size of a file used with the `srcdoc` property is 200kB. Use [HTML minifier with `minifyJS` option](https://www.npmjs.com/package/html-minifier) and use CDN sources for libraries that your widget is depending on.
+
+If a relative value of `srcdoc` property is used, the path is resolved from a directory in which the descriptor file is placed or a working directory when using the `--srcdoc` command line option.
+
+Use `src` property when you want to be as flexible as possible with your development and deployment process. Use `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation). 
 
 #### Specifying widget properties
 
@@ -93,7 +99,7 @@ Descriptor files are JSON files that contain the values that will be sent to the
 
 A descriptor file can contain:
 
-- All the widget properties (`name`, `src`, ...). Please note that the `srcdoc` property has to be a path to a file containing the widget bundle.
+- All the widget properties (`name`, `src`, ...). Please note that the `srcdoc` property has to be a path to a file containing the widget HTML document.
 - An `id` property. Including the `id` in the descriptor file means that you won't have to use the `--id` option when creating or updating a widget.
 
 All the properties included in a descriptor file can be overriden by its counterpart command line options. This means that, for example, a `--name bar` option will take precedence over the `name` property in the descriptor file. Following is an example were the usage of descriptor files is explained:
@@ -145,4 +151,3 @@ Contentful API use [optimistic locking](https://www.contentful.com/developers/do
 This means that the CLI  needs to know the current version of the widget when using the `update` and `delete` subcommands. On these case you have to specify the version of the widget using the `--version` option.
 
 If you don't want to use the `--version` option on every update or deletion, the alternative is to use `--force`. When the `--force` option is present the CLI will automatically use the latest version of the widget. Be aware that using `--force` option might lead to accidental overwrites if multiple people are working on the same widget.
-

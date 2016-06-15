@@ -510,7 +510,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let cause = '.+\/widget\.json Unexpected token o';
+              let cause = 'In file widget\.json: Unexpected token o';
               let regexp = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
 
               expect(error.error.code).to.eq(1);
@@ -533,7 +533,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let regexp = new RegExp(`Failed to ${commandName} the widget: missing id in descriptor file`);
+              let regexp = new RegExp(`Failed to ${commandName} the widget: Missing widget ID in descriptor file`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);
@@ -555,7 +555,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let msg = new RegExp(`Failed to ${commandName} the widget: missing src and srcdoc in descriptor file`);
+              let msg = new RegExp(`Failed to ${commandName} the widget: Missing "src" or "srcdoc" property in descriptor file`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(msg);

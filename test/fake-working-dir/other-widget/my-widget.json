@@ -1,0 +1,6 @@
+{
+  "id": "my-widget",
+  "name": "My widget",
+  "fieldTypes": ["Symbol"],
+  "srcdoc": "my-widget.html"
+}
