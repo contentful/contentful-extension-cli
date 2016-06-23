@@ -18,11 +18,11 @@ describe('Reading descriptor', function () {
     process.chdir(originalWd);
   });
 
-  it('extends options with an absolute path of the default "widget.json" file', function () {
+  it('extends options with an absolute path of the default "extension.json" file', function () {
     let options = {};
 
     return maybeRead(options).then(function () {
-      expect(options.descriptor).to.eq(path.resolve(process.cwd(), 'widget.json'));
+      expect(options.descriptor).to.eq(path.resolve(process.cwd(), 'extension.json'));
     });
   });
 
@@ -34,7 +34,7 @@ describe('Reading descriptor', function () {
     });
   });
 
-  it('reads the default "widget.json" file', function () {
+  it('reads the default "extension.json" file', function () {
     return maybeRead({}).then(function (descriptor) {
       expect(descriptor.id).to.eq('lol');
       expect(descriptor.name).to.eq('lol');
@@ -69,7 +69,7 @@ describe('Reading descriptor', function () {
     });
   });
 
-  it('fails on lack of widget ID', function () {
+  it('fails on lack of extension ID', function () {
     return maybeRead({descriptor: 'incomplete1.json'}).catch(function (err) {
       expect(err.message).to.have.string('Missing extension ID');
     });

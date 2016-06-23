@@ -165,7 +165,7 @@ describe('Descriptor file', function () {
     );
   });
 
-  describe('when there is a widget.json file present', function () {
+  describe('when there is an "extension.json" file present', function () {
     let file, descriptor;
 
     beforeEach(function () {
@@ -177,7 +177,7 @@ describe('Descriptor file', function () {
         sidebar: true
       };
 
-      file = path.resolve(process.cwd(), 'widget.json');
+      file = path.resolve(process.cwd(), 'extension.json');
       return fs.writeFileAsync(file, JSON.stringify(descriptor));
     });
 
@@ -510,7 +510,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let cause = 'In file widget\.json: Unexpected token o';
+              let cause = 'In file extension\.json: Unexpected token o';
               let regexp = new RegExp(`Failed to ${commandName} the extension: ${cause}`);
 
               expect(error.error.code).to.eq(1);
