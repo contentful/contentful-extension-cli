@@ -151,3 +151,50 @@ Contentful API use [optimistic locking](https://www.contentful.com/developers/do
 This means that the CLI  needs to know the current version of the widget when using the `update` and `delete` subcommands. On these case you have to specify the version of the widget using the `--version` option.
 
 If you don't want to use the `--version` option on every update or deletion, the alternative is to use `--force`. When the `--force` option is present the CLI will automatically use the latest version of the widget. Be aware that using `--force` option might lead to accidental overwrites if multiple people are working on the same widget.
+
+### Programmatic usage
+
+You can also use CLI's methods with a programmatic interface (for example in your build process). A client can be created simply by requiring `contentful-widget-cli` npm package:
+
+```js
+const cli = require('contentful-widget-cli');
+
+const client = cli.createClient({
+  accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN,
+  spaceId: 'xxxyyyzzz',
+  host: 'https://api.contentful.com' // optional, default value shown
+});
+
+// getting an array of all widgets in the space
+client.getAll().then(function (widgets) {});
+
+// getting a single widget
+client.get(widgetId).then(function (widget) {});
+
+// save method takes an object of widget properties described above
+client.save({
+  id: 'test-id',
+  name: 'test',
+  src: 'https://widget.example'
+}).then(function (savedWidget) {});
+
+// the only difference is that srcdoc is a HTML document string
+// instead of a path (so it can be fed with custom build data)
+client.save({
+  id: 'test-id',
+  name: 'test',
+  srcdoc: '<!doctype html><html><body><p>test...'
+}).then(function (savedWidget) {});
+
+// if widget was saved, a result of the get method call will contain
+// version that has to be supplied to the consecutive save call
+client.save({
+  id: 'test-id',
+  name: 'test',
+  src: 'https://widget.example',
+  version: 123
+}).then(function (savedWidget) {});
+
+// delete method also requires a version number
+client.delete(widgetId, currentWidgetVersion).then(function () {});
+```
