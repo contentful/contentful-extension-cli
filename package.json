@@ -14,11 +14,11 @@
   "description": "CLI to manage UI Extensions on Contentful",
   "main": "lib/api.js",
   "bin": {
-    "contentful-extension": "./bin/contentful-widget",
-    "contentful-extension-create": "./bin/contentful-widget-create",
-    "contentful-extension-delete": "./bin/contentful-widget-delete",
-    "contentful-extension-read": "./bin/contentful-widget-read",
-    "contentful-extension-update": "./bin/contentful-widget-update"
+    "contentful-extension": "./bin/contentful-extension",
+    "contentful-extension-create": "./bin/contentful-extension-create",
+    "contentful-extension-delete": "./bin/contentful-extension-delete",
+    "contentful-extension-read": "./bin/contentful-extension-read",
+    "contentful-extension-update": "./bin/contentful-extension-update"
   },
   "devDependencies": {
     "body-parser": "^1.14.1",

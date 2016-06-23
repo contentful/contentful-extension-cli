@@ -235,14 +235,14 @@ describe('Commands', function () {
 
     it('reports the error when supplied name is too long', function () {
       let cmd = 'create --space-id 123 --name imagine-there-is-300-chars --src lol.com --field-types Symbol --id too-long-name --host http://localhost:3000';
-      let msg = httpError('put', 'create', 'ValidationFailed', 'Provide a valid widget name (1-255 characters).');
+      let msg = httpError('put', 'create', 'ValidationFailed', 'Provide a valid extension name (1-255 characters).');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('reports the error when invalid field type is provided', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Lol --host http://localhost:3000';
-      let msg = httpError('post', 'create', 'ValidationFailed', 'The "fieldTypes" widget property expects: Symbol,Yolo');
+      let msg = httpError('post', 'create', 'ValidationFailed', 'The "fieldTypes" extension property expects: Symbol,Yolo');
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -282,7 +282,7 @@ describe('Commands', function () {
 
       it('reports the error when the file is too big', function () {
         let cmd = `create --space-id 123 --name lol --field-types Symbol --srcdoc ${file} --host http://localhost:3000 --id too-big`;
-        let msg = 'The "srcdoc" widget property must have at most 7777 characters.';
+        let msg = 'The "srcdoc" extension property must have at most 7777 characters.';
 
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
@@ -308,7 +308,7 @@ describe('Commands', function () {
 
       return command(createCmd, execOptions)
       .then(function (stdout) {
-        expect(stdout).to.include('Successfully created widget, id: 456 name: lol');
+        expect(stdout).to.include('Successfully created extension, id: 456 name: lol');
       });
     });
   });
@@ -812,7 +812,7 @@ describe('Commands', function () {
         return command(updateCmd, execOptions);
       })
       .then(function (stdout) {
-        expect(stdout).to.include('Successfully updated widget, id: 456 name: foo');
+        expect(stdout).to.include('Successfully updated extension, id: 456 name: foo');
       });
     });
   });
@@ -998,7 +998,7 @@ describe('Commands', function () {
           return command(deleteCmd, execOptions);
         })
         .then(function (stdout) {
-          expect(stdout).to.include('Successfully deleted widget');
+          expect(stdout).to.include('Successfully deleted extension');
         });
     });
   });
@@ -1017,7 +1017,7 @@ function notFoundMsg (method, op) {
   let reasons = ['Check used CMA access token / space ID combination.'];
 
   if (method !== 'post') {
-    reasons.push('Check the widget ID.');
+    reasons.push('Check the extension ID.');
   }
 
   return httpError(method, op, 'NotFound', reasons.join('\n'));

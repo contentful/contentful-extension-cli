@@ -120,7 +120,7 @@ describe('Descriptor file', function () {
           .then(assert.fail)
           .catch(function (error) {
             let cause = `ENOENT: no such file or directory, stat '${customDescriptorPath}'`;
-            let msg = `Failed to ${commandName} the widget: ${cause}`;
+            let msg = `Failed to ${commandName} the extension: ${cause}`;
 
             expect(error.error.code).to.eq(1);
             expect(error.stderr).to.include(msg);
@@ -155,7 +155,7 @@ describe('Descriptor file', function () {
           .then(assert.fail)
           .catch(function (error) {
             let cause = `EACCES: permission denied, open \'.+\/descriptor\.json\'`;
-            let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+            let msg = new RegExp(`Failed to ${commandName} the extension: ${cause}`);
 
             expect(error.error.code).to.eq(1);
             expect(error.stderr).to.match(msg);
@@ -198,7 +198,7 @@ describe('Descriptor file', function () {
         ]
       },
       function (commandName, commands) {
-        it(`${commandName}s the widget using the values in descriptor file`, function () {
+        it(`${commandName}s the extension using the values in descriptor file`, function () {
           return runCommands(commands, execOptions)()
           .then(function (stdout) {
             let payload = JSON.parse(stdout);
@@ -242,7 +242,7 @@ describe('Descriptor file', function () {
           ]
         },
         function (commandName, commands) {
-          it(`${commandName}s the widget using the values in the descriptor file`, function () {
+          it(`${commandName}s the extension using the values in the descriptor file`, function () {
             delete descriptor.src;
             descriptor.srcdoc = srdoc;
 
@@ -511,7 +511,7 @@ describe('Descriptor file', function () {
             .then(assert.fail)
             .catch(function (error) {
               let cause = 'In file widget\.json: Unexpected token o';
-              let regexp = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+              let regexp = new RegExp(`Failed to ${commandName} the extension: ${cause}`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);
@@ -533,7 +533,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let regexp = new RegExp(`Failed to ${commandName} the widget: Missing widget ID in descriptor file`);
+              let regexp = new RegExp(`Failed to ${commandName} the extension: Missing extension ID in descriptor file`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(regexp);
@@ -555,7 +555,7 @@ describe('Descriptor file', function () {
             .then(runCommands(commands, execOptions))
             .then(assert.fail)
             .catch(function (error) {
-              let msg = new RegExp(`Failed to ${commandName} the widget: Missing "src" or "srcdoc" property in descriptor file`);
+              let msg = new RegExp(`Failed to ${commandName} the extension: Missing "src" or "srcdoc" property in descriptor file`);
 
               expect(error.error.code).to.eq(1);
               expect(error.stderr).to.match(msg);
@@ -635,7 +635,7 @@ describe('Descriptor file', function () {
               .then(assert.fail)
               .catch(function (error) {
                 let cause = `ENOENT: no such file or directory, stat '${customDescriptorPath}'`;
-                let msg = new RegExp(`Failed to ${commandName} the widget: ${cause}`);
+                let msg = new RegExp(`Failed to ${commandName} the extension: ${cause}`);
 
                 expect(error.error.code).to.eq(1);
                 expect(error.stderr).to.match(msg);

@@ -71,7 +71,7 @@ describe('Reading descriptor', function () {
 
   it('fails on lack of widget ID', function () {
     return maybeRead({descriptor: 'incomplete1.json'}).catch(function (err) {
-      expect(err.message).to.have.string('Missing widget ID');
+      expect(err.message).to.have.string('Missing extension ID');
     });
   });
 

@@ -5,7 +5,7 @@ var Bluebird = require('bluebird');
 var exec = require('child_process').exec;
 
 module.exports = function command (subcommand, options) {
-  let binary = path.resolve(__dirname, '../../../bin/contentful-widget');
+  let binary = path.resolve(__dirname, '../../../bin/contentful-extension');
 
   // TODO incllude the --host option in the exec call
   // to remove duplication from the tests
