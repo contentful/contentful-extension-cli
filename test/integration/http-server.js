@@ -21,7 +21,7 @@ app.use(function (req, res, next) {
 
 app.all('/spaces/:space/widgets/:id', function (req, res, next) {
   if (req.params.id === 'not-found') {
-    let error = buildError('NotFoundError', 'The resource can\'t be found');
+    let error = buildError('NotFound', 'The resource can\'t be found.');
 
     res.status(404);
     res.send(error);
@@ -42,6 +42,13 @@ app.all('/spaces/:space/widgets/:id', function (req, res, next) {
 });
 
 app.post('/spaces/:space/widgets', function (req, res) {
+  if (_.get(req, 'body.widget.fieldTypes[0].type') === 'Lol') {
+    return respondWithValidationError(res, {
+      path: ['widget', 'fieldTypes'],
+      expected: ['Symbol', 'Yolo']
+    });
+  }
+
   let widget = createWidget(req.params.space, req.params.id, req.body);
 
   res.status(201);
@@ -55,6 +62,17 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
   let xVersion = versionInHeader ? parseInt(versionInHeader, 10) : undefined;
 
   if (!widget) {
+    if (req.params.id === 'too-long-name') {
+      return respondWithValidationError(res, {path: ['widget', 'name']});
+    } else if (req.params.id === 'so-invalid') {
+      return respondWithValidationError(res);
+    } else if (req.params.id === 'too-big') {
+      return respondWithValidationError(res, {
+        path: ['widget', 'srcdoc'],
+        max: 7777
+      });
+    }
+
     let widget = createWidget(req.params.space, req.params.id, req.body);
 
     store[req.params.id] = widget;
@@ -152,13 +170,20 @@ function createWidget (spaceId, id, payload) {
   });
 }
 
-function buildError (id, message) {
-  return {
+function buildError (id, message, error) {
+  return _.extend({
     sys: {
       id: id || 'ServerError'
     },
-    message: message || 'Server failed to fulfill the request'
-  };
+    message: message || 'Server failed to fulfill the request.',
+    details: {errors: [error || {}]}
+  });
+}
+
+function respondWithValidationError (res, err) {
+  res.status(422);
+  res.send(buildError('ValidationFailed', null, err));
+  res.end();
 }
 
 var server;

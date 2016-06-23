@@ -61,16 +61,24 @@ The following table describes the properties that can be set on a widget.
 Property | Required| Type | Description
 ---------|---------|------|------------
 name | yes | String | Widget name
-fieldTypes | yes | List * | Field types where a widget can be used
-src | ** | String | URL where the widget bundle can be found
-srcdoc | ** | String | Widget bundle serialized as a string
+fieldTypes | yes | Array\<String\> * | Field types where a widget can be used
+src | ** | String | URL where the root HTML document of the widget can be found
+srcdoc | ** | String | Path to the local widget HTML document
 sidebar | no | Boolean | Controls the location of the widget. If `true` it will be rendered on the sidebar
 
 \* Valid field types are: `Symbol`, `Symbols`, `Text`, `Integer`, `Number`, `Date`, `Boolean`, `Object`, `Entry`, `Entries`, `Asset`, `Assets`
 
 \** One of `src` or `srcdoc` have to be present
 
-Note: When a widget is 3rd party hosted, relative links in the root HTML document are supported as expected. However, when serialized and uploaded as a string to Contentful, all local dependencies have to be manually inlined into the file specified for `src`. The command line tool does not take care of link resolving and inlining of referenced local resources.
+#### Difference between `src` and `srcdoc` properties
+
+When using `src` property, a widget is considered 3rd party hosted. Relative links in the root HTML document are supported as expected.
+
+When using `srcdoc` property, a widget is considered internally hosted. A file being pointed by the `srcdoc` property will be loaded and uploaded as a string to Contentful. All local dependencies have to be manually inlined into the file. The command line tool does not take care of link resolving and inlining of referenced local resources. The maximal size of a file used with the `srcdoc` property is 200kB. Use [HTML minifier with `minifyJS` option](https://www.npmjs.com/package/html-minifier) and use CDN sources for libraries that your widget is depending on.
+
+If a relative value of `srcdoc` property is used, the path is resolved from a directory in which the descriptor file is placed or a working directory when using the `--srcdoc` command line option.
+
+Use `src` property when you want to be as flexible as possible with your development and deployment process. Use `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation). 
 
 #### Specifying widget properties
 
@@ -91,7 +99,7 @@ Descriptor files are JSON files that contain the values that will be sent to the
 
 A descriptor file can contain:
 
-- All the widget properties (`name`, `src`, ...). Please note that the `srcdoc` property has to be a path to a file containing the widget bundle.
+- All the widget properties (`name`, `src`, ...). Please note that the `srcdoc` property has to be a path to a file containing the widget HTML document.
 - An `id` property. Including the `id` in the descriptor file means that you won't have to use the `--id` option when creating or updating a widget.
 
 All the properties included in a descriptor file can be overriden by its counterpart command line options. This means that, for example, a `--name bar` option will take precedence over the `name` property in the descriptor file. Following is an example were the usage of descriptor files is explained:
@@ -144,3 +152,49 @@ This means that the CLI  needs to know the current version of the widget when us
 
 If you don't want to use the `--version` option on every update or deletion, the alternative is to use `--force`. When the `--force` option is present the CLI will automatically use the latest version of the widget. Be aware that using `--force` option might lead to accidental overwrites if multiple people are working on the same widget.
 
+### Programmatic usage
+
+You can also use CLI's methods with a programmatic interface (for example in your build process). A client can be created simply by requiring `contentful-widget-cli` npm package:
+
+```js
+const cli = require('contentful-widget-cli');
+
+const client = cli.createClient({
+  accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN,
+  spaceId: 'xxxyyyzzz',
+  host: 'https://api.contentful.com' // optional, default value shown
+});
+
+// getting an array of all widgets in the space
+client.getAll().then(function (widgets) {});
+
+// getting a single widget
+client.get(widgetId).then(function (widget) {});
+
+// save method takes an object of widget properties described above
+client.save({
+  id: 'test-id',
+  name: 'test',
+  src: 'https://widget.example'
+}).then(function (savedWidget) {});
+
+// the only difference is that srcdoc is a HTML document string
+// instead of a path (so it can be fed with custom build data)
+client.save({
+  id: 'test-id',
+  name: 'test',
+  srcdoc: '<!doctype html><html><body><p>test...'
+}).then(function (savedWidget) {});
+
+// if widget was saved, a result of the get method call will contain
+// version that has to be supplied to the consecutive save call
+client.save({
+  id: 'test-id',
+  name: 'test',
+  src: 'https://widget.example',
+  version: 123
+}).then(function (savedWidget) {});
+
+// delete method also requires a version number
+client.delete(widgetId, currentWidgetVersion).then(function () {});
+```
