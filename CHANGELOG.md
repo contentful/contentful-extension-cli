@@ -1,6 +1,16 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.2.0 - 2016-06-23
+### Added
+- Document programmatic usage
+- Expose API for programmatic usage
+
+### Changed
+- Resolve srcdoc relatively from descriptor's directory
+- Improve error messages
+- Update README.md (fieldTypes and srcdoc properties)
+
 ## v1.1.2 - 2016-02-08
 ### Changed
 - Release the package to the public
