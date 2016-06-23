@@ -1,5 +1,5 @@
 {
-  "name": "contentful-widget-cli",
+  "name": "contentful-extension-cli",
   "author": "Contentful GmbH",
   "version": "1.2.0",
   "scripts": {
@@ -9,16 +9,16 @@
     "test-unit": "_mocha test/unit/**/*-test.js"
   },
   "bugs": {
-    "url": "https://github.com/contentful/contentful-widget-cli/issues"
+    "url": "https://github.com/contentful/contentful-extension-cli/issues"
   },
-  "description": "CLI to manage UI Widgets on Contentful",
+  "description": "CLI to manage UI Extensions on Contentful",
   "main": "lib/api.js",
   "bin": {
-    "contentful-widget": "./bin/contentful-widget",
-    "contentful-widget-create": "./bin/contentful-widget-create",
-    "contentful-widget-delete": "./bin/contentful-widget-delete",
-    "contentful-widget-read": "./bin/contentful-widget-read",
-    "contentful-widget-update": "./bin/contentful-widget-update"
+    "contentful-extension": "./bin/contentful-widget",
+    "contentful-extension-create": "./bin/contentful-widget-create",
+    "contentful-extension-delete": "./bin/contentful-widget-delete",
+    "contentful-extension-read": "./bin/contentful-widget-read",
+    "contentful-extension-update": "./bin/contentful-widget-update"
   },
   "devDependencies": {
     "body-parser": "^1.14.1",
@@ -34,11 +34,11 @@
     "sinon-chai": "^2.8.0",
     "temp": "^0.8.3"
   },
-  "homepage": "https://github.com/contentful/contentful-widget-cli#readme",
+  "homepage": "https://github.com/contentful/contentful-extension-cli#readme",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/contentful/contentful-widget-cli.git"
+    "url": "git+https://github.com/contentful/contentful-extension-cli.git"
   },
   "dependencies": {
     "bluebird": "^3.0.5",

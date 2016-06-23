@@ -1,7 +1,8 @@
-## Introduction [![Build Status](https://travis-ci.com/contentful/contentful-widget-cli.svg?token=GuTGqA8WbzXbprUpRd2Y&branch=master)](https://travis-ci.com/contentful/contentful-widget-cli)
+## Introduction
+
 Contentful allows customers to customize and tailor the UI using custom made widgets. Widgets have to be uploaded to Contentful in order to be able to use them in the UI.
 
-This repo hosts `contentful-widget` a Command Line Tool (CLI) developed to simplify the management tasks associated with custom widgets. With the CLI you can:
+This repo hosts `contentful-extension` a Command Line Tool (CLI) developed to simplify the management tasks associated with custom widgets. With the CLI you can:
 
 - Create widgets
 - Update existing widgets
@@ -11,39 +12,39 @@ This repo hosts `contentful-widget` a Command Line Tool (CLI) developed to simpl
 ## Installation
 
 ```
-npm install -g contentful-widget-cli
+npm install -g contentful-extension-cli
 ```
 
 
 ## Available commands
 
-`contentful-widget` is composed of 4 subcommands that you can use to manage the widgets.
+`contentful-extension` is composed of 4 subcommands that you can use to manage the widgets.
 
 **create a widget**
 
 ```
-contentful-widget create [options]
+contentful-extension create [options]
 ```
 Use this subcommand to create the widget for the first time. Succesive modifications made to the widget will be have to be using the `update` subcommand.
 
 **read a widget**
 
 ```
-contentful-widget read [options]
+contentful-extension read [options]
 ```
 Use this subcommand to read the widget payload from Contentful. With this subcommand you can also list all the widgets in one space.
 
 **update a widget**
 
 ```
-contentful-widget update [options]
+contentful-extension update [options]
 ```
 Use this subcommand to modify an existing widget.
  
 **delete a widget**
 
 ```
-contentful-widget delete [options]
+contentful-extension delete [options]
 ```
 
 Use this subcommand to pertmanently delete a widget from Contentful.
@@ -89,7 +90,7 @@ Subcommands that create of modify a widgets (`create` and `upload`) accept the p
 For every property in the widget there's a corresponding long option with the same name. So for example, there's a `name` property and so a `--name` option too.
 
 ```
-contentful-widget create --space-id 123 --name foo --src foo.com/widget
+contentful-extension create --space-id 123 --name foo --src foo.com/widget
 ```
 Note that camelcased property names like `fieldTypes` are hyphenated (`--field-types`).
 
@@ -117,7 +118,7 @@ Assuming that there's a `widget.json` file in the directory where the CLI is run
 The following command
 
 ```
-contentful-widget create --space-id 123 --name bar
+contentful-extension create --space-id 123 --name bar
 ```
 
 Will create the following widget. Note that the `name` is `bar` and that the `id` is `foo-widget`.
@@ -154,10 +155,10 @@ If you don't want to use the `--version` option on every update or deletion, the
 
 ### Programmatic usage
 
-You can also use CLI's methods with a programmatic interface (for example in your build process). A client can be created simply by requiring `contentful-widget-cli` npm package:
+You can also use CLI's methods with a programmatic interface (for example in your build process). A client can be created simply by requiring `contentful-extension-cli` npm package:
 
 ```js
-const cli = require('contentful-widget-cli');
+const cli = require('contentful-extension-cli');
 
 const client = cli.createClient({
   accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN,
