@@ -87,7 +87,7 @@ describe('Descriptor file', function () {
       ]
     },
     function (commandName, commands) {
-      it(`${commandName}s a widget`, function () {
+      it(`${commandName}s an extension`, function () {
         return runCommands(commands, execOptions)()
           .then(function (stdout) {
             let payload = JSON.parse(stdout);
@@ -597,7 +597,7 @@ describe('Descriptor file', function () {
           ]
         },
         function (commandName, commands) {
-          it(`${commandName}s a widget`, function () {
+          it(`${commandName}s an extension`, function () {
             return runCommands(commands, execOptions)()
             .then(function (stdout) {
               let payload = JSON.parse(stdout);

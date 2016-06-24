@@ -6,18 +6,18 @@ const proxyquire = require('proxyquire');
 
 const context = {http: {}, client: {}};
 const setupContextStub = sinon.stub().returns(context);
-const widgetMethodSpies = {};
-const widgetConstructorSpy = sinon.spy();
+const extensionMethodSpies = {};
+const extensionConstructorSpy = sinon.spy();
 
-function WidgetStub () {
-  widgetConstructorSpy.apply(null, arguments);
-  _.extend(this, widgetMethodSpies);
+function ExtensionStub () {
+  extensionConstructorSpy.apply(null, arguments);
+  _.extend(this, extensionMethodSpies);
 }
 
-WidgetStub.all = sinon.spy();
+ExtensionStub.all = sinon.spy();
 
 const api = proxyquire('../../..', {
-  './widget': WidgetStub,
+  './extension': ExtensionStub,
   './context': setupContextStub
 });
 
@@ -38,40 +38,40 @@ describe('API', function () {
 
   describe('instance methods', function () {
     beforeEach(function () {
-      widgetMethodSpies.read = sinon.spy();
-      widgetMethodSpies.save = sinon.spy();
-      widgetMethodSpies.delete = sinon.spy();
+      extensionMethodSpies.read = sinon.spy();
+      extensionMethodSpies.save = sinon.spy();
+      extensionMethodSpies.delete = sinon.spy();
       this.client = api.createClient({spaceId: 'spaceid'});
     });
 
     it('#getAll()', function () {
       this.client.getAll();
-      sinon.assert.calledOnce(WidgetStub.all.withArgs({spaceId: 'spaceid'}));
+      sinon.assert.calledOnce(ExtensionStub.all.withArgs({spaceId: 'spaceid'}));
     });
 
     it('#get(id)', function () {
       const options = {spaceId: 'spaceid', id: 'tid'};
 
       this.client.get('tid');
-      sinon.assert.calledOnce(widgetConstructorSpy.withArgs(options, context));
-      sinon.assert.calledOnce(widgetMethodSpies.read);
+      sinon.assert.calledOnce(extensionConstructorSpy.withArgs(options, context));
+      sinon.assert.calledOnce(extensionMethodSpies.read);
     });
 
-    it('#save(widget)', function () {
-      const widget = {id: 'tid', name: 'test', version: 123};
-      const options = _.extend({spaceId: 'spaceid'}, widget);
+    it('#save(extension)', function () {
+      const extension = {id: 'tid', name: 'test', version: 123};
+      const options = _.extend({spaceId: 'spaceid'}, extension);
 
-      this.client.save(widget);
-      sinon.assert.calledOnce(widgetConstructorSpy.withArgs(options, context));
-      sinon.assert.calledOnce(widgetMethodSpies.save);
+      this.client.save(extension);
+      sinon.assert.calledOnce(extensionConstructorSpy.withArgs(options, context));
+      sinon.assert.calledOnce(extensionMethodSpies.save);
     });
 
     it('#delete(id, version)', function () {
       const options = {spaceId: 'spaceid', id: 'tid', version: 123};
 
       this.client.delete('tid', 123);
-      sinon.assert.calledOnce(widgetConstructorSpy.withArgs(options, context));
-      sinon.assert.calledOnce(widgetMethodSpies.delete);
+      sinon.assert.calledOnce(extensionConstructorSpy.withArgs(options, context));
+      sinon.assert.calledOnce(extensionMethodSpies.delete);
     });
   });
 });

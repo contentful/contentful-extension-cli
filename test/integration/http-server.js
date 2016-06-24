@@ -49,19 +49,19 @@ app.post('/spaces/:space/widgets', function (req, res) {
     });
   }
 
-  let widget = createWidget(req.params.space, req.params.id, req.body);
+  let extension = createExtension(req.params.space, req.params.id, req.body);
 
   res.status(201);
-  res.json(widget);
+  res.json(extension);
   res.end();
 });
 
 app.put('/spaces/:space/widgets/:id', function (req, res) {
-  let widget = store[req.params.id];
+  let extension = store[req.params.id];
   let versionInHeader = req.headers['x-contentful-version'];
   let xVersion = versionInHeader ? parseInt(versionInHeader, 10) : undefined;
 
-  if (!widget) {
+  if (!extension) {
     if (req.params.id === 'too-long-name') {
       return respondWithValidationError(res, {path: ['widget', 'name']});
     } else if (req.params.id === 'so-invalid') {
@@ -73,11 +73,11 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
       });
     }
 
-    let widget = createWidget(req.params.space, req.params.id, req.body);
+    let extension = createExtension(req.params.space, req.params.id, req.body);
 
-    store[req.params.id] = widget;
+    store[req.params.id] = extension;
     res.status(201);
-    res.json(widget);
+    res.json(extension);
     res.end();
   } else {
     if (req.params.id === 'fail-update') {
@@ -89,18 +89,18 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
       return;
     }
 
-    if (xVersion !== widget.sys.version) {
+    if (xVersion !== extension.sys.version) {
       res.status(409);
       res.end();
     } else {
-      let sys = widget.sys;
+      let sys = extension.sys;
 
-      widget = req.body;
-      widget.sys = sys;
-      widget.sys.version = widget.sys.version + 1;
-      store[req.params.id] = widget; // Update the store
+      extension = req.body;
+      extension.sys = sys;
+      extension.sys.version = extension.sys.version + 1;
+      store[req.params.id] = extension; // Update the store
 
-      res.json(widget);
+      res.json(extension);
       res.status(200);
       res.end();
     }
@@ -108,8 +108,8 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
 });
 
 app.get('/spaces/:space/widgets', function (req, res) {
-  let widgets = _.filter(store, {sys: {space: {sys: {id: req.params.space}}}});
-  let response = { sys: {type: 'Array'}, total: widgets.length, items: widgets };
+  let extensions = _.filter(store, {sys: {space: {sys: {id: req.params.space}}}});
+  let response = { sys: {type: 'Array'}, total: extensions.length, items: extensions };
 
   if (req.params.space === 'fail') {
     let error = buildError();
@@ -126,15 +126,15 @@ app.get('/spaces/:space/widgets', function (req, res) {
 });
 
 app.get('/spaces/:space/widgets/:id', function (req, res) {
-  let widget = store[req.params.id];
+  let extension = store[req.params.id];
 
   res.status(200);
-  res.json(widget);
+  res.json(extension);
   res.end();
 });
 
 app.delete('/spaces/:space/widgets/:id', function (req, res) {
-  let widget = store[req.params.id];
+  let extension = store[req.params.id];
   let xVersion = parseInt(req.headers['x-contentful-version'], 10);
 
   if (req.params.id === 'fail-delete') {
@@ -146,7 +146,7 @@ app.delete('/spaces/:space/widgets/:id', function (req, res) {
     return;
   }
 
-  if (xVersion !== widget.sys.version) {
+  if (xVersion !== extension.sys.version) {
     res.status(409);
     res.end();
   } else {
@@ -156,7 +156,7 @@ app.delete('/spaces/:space/widgets/:id', function (req, res) {
   }
 });
 
-function createWidget (spaceId, id, payload) {
+function createExtension (spaceId, id, payload) {
   return _.extend(payload, {
     sys: {
       version: 1,

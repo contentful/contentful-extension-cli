@@ -131,7 +131,7 @@ describe('Commands', function () {
         });
     });
 
-    it('creates a widget', function () {
+    it('creates an extension', function () {
       // TODO add test that works with host without protocol
       return command('create --space-id 123 --field-types Symbol --src lol.com --name lol --host http://localhost:3000 --id 456', execOptions)
         .then(function () {
@@ -147,7 +147,7 @@ describe('Commands', function () {
         });
     });
 
-    it('creates a widget with fieldTypes', function () {
+    it('creates an extension with fieldTypes', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol Text --host http://localhost:3000 --id 456';
       let readCmd = 'read --space-id 123 --host http://localhost:3000 --id 456';
 
@@ -165,7 +165,7 @@ describe('Commands', function () {
         });
     });
 
-    it('creates a widget with the sidebar property set to true', function () {
+    it('creates an extension with the sidebar property set to true', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --sidebar --host http://localhost:3000 --id 456';
       let readCmd = 'read --space-id 123 --host http://localhost:3000 --id 456';
 
@@ -180,7 +180,7 @@ describe('Commands', function () {
       });
     });
 
-    it('creates a widget with the sidebar property set to false', function () {
+    it('creates an extension with the sidebar property set to false', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --no-sidebar --host http://localhost:3000 --id 456';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
 
@@ -195,7 +195,7 @@ describe('Commands', function () {
       });
     });
 
-    it('creates a widget with the sidebar property set to undefined if no sidebar option', function () {
+    it('creates an extension with the sidebar property set to undefined if no sidebar option', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --host http://localhost:3000 --id 456';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
 
@@ -210,7 +210,7 @@ describe('Commands', function () {
       });
     });
 
-    it('creates a widget with a custom id', function () {
+    it('creates an extension with a custom id', function () {
       let cmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
 
@@ -287,7 +287,7 @@ describe('Commands', function () {
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
 
-      it('creates a widget from a file', function () {
+      it('creates an extension from a file', function () {
         let cmd = `create --space-id 123 --name lol --srcdoc ${file} --field-types Symbol --host http://localhost:3000 --id 456`;
         let readCmd = 'read --space-id 123 --host http://localhost:3000 --id 456';
 
@@ -389,7 +389,7 @@ describe('Commands', function () {
         });
     });
 
-    it('reports when the widget can not be found', function () {
+    it('reports when the extension can not be found', function () {
       let cmd = 'read --space-id 123 --id not-found --host http://localhost:3000';
       let msg = notFoundMsg('get', 'read');
 
@@ -403,7 +403,7 @@ describe('Commands', function () {
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
-    it('reads a widget', function () {
+    it('reads an extension', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
 
@@ -419,7 +419,7 @@ describe('Commands', function () {
         });
     });
 
-    it('reads all widgets', function () {
+    it('reads all extension', function () {
       let createCmd1 = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let createCmd2 = 'create --space-id 123 --name foo --src foo.com --field-types Symbol --id 789 --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --all --host http://localhost:3000';
@@ -433,18 +433,18 @@ describe('Commands', function () {
       })
       .then(function (stdout) {
         let payloads = JSON.parse(stdout);
-        let lolWidget = _.find(payloads.items, {sys: {id: '456'}});
-        let fooWidget = _.find(payloads.items, {sys: {id: '789'}});
+        let lolExtension = _.find(payloads.items, {sys: {id: '456'}});
+        let fooExtension = _.find(payloads.items, {sys: {id: '789'}});
 
         expect(payloads.total).to.eq(2);
-        expect(lolWidget.widget.name).to.eql('lol');
-        expect(lolWidget.widget.src).to.eql('lol.com');
-        expect(fooWidget.widget.name).to.eql('foo');
-        expect(fooWidget.widget.src).to.eql('foo.com');
+        expect(lolExtension.widget.name).to.eql('lol');
+        expect(lolExtension.widget.src).to.eql('lol.com');
+        expect(fooExtension.widget.name).to.eql('foo');
+        expect(fooExtension.widget.src).to.eql('foo.com');
       });
     });
 
-    it('reports the error when the API request fails (reading all widgets)', function () {
+    it('reports the error when the API request fails (reading all extensions)', function () {
       let cmd = 'read --space-id fail --all --host http://localhost:3000';
       let msg = serverErrorMsg('get', 'read', 'ServerError');
 
@@ -582,7 +582,7 @@ describe('Commands', function () {
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
-    it('updates a widget passing the version', function () {
+    it('updates an extension passing the version', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name foo --id 456 --version 1 --src foo.com --field-types Symbol --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
@@ -602,14 +602,14 @@ describe('Commands', function () {
         });
     });
 
-    it('fails to update the widget if no version is given and force option not present', function () {
+    it('fails to update the extension if no version is given and force option not present', function () {
       let cmd = 'update --space-id 123 --id 456 --name lol --field-types Symbol --src foo.com --host http://localhost:3000';
       let msg = 'to update without version use the --force flag';
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
-    it('updates a widget without explicitely giving it version', function () {
+    it('updates an extension without explicitely giving it version', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name foo --id 456 --src foo.com --field-types Symbol --force --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
@@ -636,7 +636,7 @@ describe('Commands', function () {
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
-    it('updates the name of a widget', function () {
+    it('updates the name of an extension', function () {
       let createCmd = 'create --space-id 123 --name lol --src l.com --field-types Symbol --id 456 --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name doge --src l.com --id 456 --field-types Symbol --force --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
@@ -655,7 +655,7 @@ describe('Commands', function () {
         });
     });
 
-    it('updates the fieldTypes of a widget', function () {
+    it('updates the fieldTypes of an extension', function () {
       let createCmd = 'create --space-id 123 --name lol --src l.com --id 456 --field-types Symbol --name foo --host http://localhost:3000';
       let updateCmd = 'update --space-id 123 --name lol --src l.com --id 456 --field-types Text Symbol Assets --force --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
@@ -783,7 +783,7 @@ describe('Commands', function () {
         return expectErrorAndMessage(cmd, execOptions, msg);
       });
 
-      it('updates a widget from a file without explicitely giving its version', function () {
+      it('updates an extension from a file without explicitely giving its version', function () {
         let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
         let updateCmd = `update --space-id 123 --name lol --field-types Symbol --id 456 --srcdoc ${file} --force --host http://localhost:3000`;
         let readCmd = 'read --space-id 123 --id 456 --host http://localhost:3000';
@@ -901,7 +901,7 @@ describe('Commands', function () {
         });
     });
 
-    it('fails to delete the widget if no version is given and force option not present', function () {
+    it('fails to delete the extension if no version is given and force option not present', function () {
       return command('delete --space-id 123 --src foo.com --id 456 --host http://localshot', execOptions)
         .then(assert.fail)
         .catch(function (error) {
@@ -949,7 +949,7 @@ describe('Commands', function () {
       return expectErrorAndMessage(deleteCmd, execOptions, msg);
     });
 
-    it('deletes a widget', function () {
+    it('deletes an extension', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let deleteCmd = 'delete --space-id 123 --id 456 --version 1 --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --all --host http://localhost:3000';
@@ -969,7 +969,7 @@ describe('Commands', function () {
         });
     });
 
-    it('deletes a widget without explicitely giving its version', function () {
+    it('deletes an extension without explicitely giving its version', function () {
       let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
       let deleteCmd = 'delete --space-id 123 --id 456 --force --host http://localhost:3000';
       let readCmd = 'read --space-id 123 --all --host http://localhost:3000';

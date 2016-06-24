@@ -1,0 +1,6 @@
+{
+  "id": "my-extension",
+  "name": "My extension",
+  "fieldTypes": ["Symbol"],
+  "srcdoc": "my-extension.html"
+}

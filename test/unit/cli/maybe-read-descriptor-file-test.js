@@ -27,10 +27,10 @@ describe('Reading descriptor', function () {
   });
 
   it('resolves an absolute path of the provided descriptor file', function () {
-    let options = {descriptor: 'other-widget/my-widget.json'};
+    let options = {descriptor: 'other-extension/my-extension.json'};
 
     return maybeRead(options).then(function () {
-      expect(options.descriptor).to.eq(path.resolve(process.cwd(), 'other-widget/my-widget.json'));
+      expect(options.descriptor).to.eq(path.resolve(process.cwd(), 'other-extension/my-extension.json'));
     });
   });
 
@@ -44,20 +44,20 @@ describe('Reading descriptor', function () {
   });
 
   it('reads the provided descriptor file', function () {
-    return maybeRead({descriptor: 'other-widget/my-widget.json'})
+    return maybeRead({descriptor: 'other-extension/my-extension.json'})
       .then(function (descriptor) {
-        expect(descriptor.id).to.eq('my-widget');
-        expect(descriptor.name).to.eq('My widget');
+        expect(descriptor.id).to.eq('my-extension');
+        expect(descriptor.name).to.eq('My extension');
         expect(descriptor.fieldTypes[0]).to.eq('Symbol');
         expect(descriptor.fieldTypes.length).to.eq(1);
       });
   });
 
   it('resolves "srcdoc" property relatively to the descriptor file', function () {
-    let options = {descriptor: 'other-widget/my-widget.json'};
+    let options = {descriptor: 'other-extension/my-extension.json'};
 
     return maybeRead(options).then(function (descriptor) {
-      let resolved = path.resolve(path.dirname(options.descriptor), 'my-widget.html');
+      let resolved = path.resolve(path.dirname(options.descriptor), 'my-extension.html');
 
       expect(descriptor.srcdoc).to.eq(resolved);
     });

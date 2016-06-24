@@ -5,46 +5,46 @@ var Bluebird = require('bluebird');
 var _ = require('lodash');
 
 var expect = require('../../helper').expect;
-var Widget = require('../../../lib/widget');
+var Extension = require('../../../lib/extension');
 
-function buildWidgetPayload (options) {
-  var widget = {};
+function buildExtensionPayload (options) {
+  var extension = {};
 
-  _.extend(widget, _.pick(options, ['src', 'srcdoc', 'fieldTypes']));
+  _.extend(extension, _.pick(options, ['src', 'srcdoc', 'fieldTypes']));
 
   if (options.fieldTypes) {
-    widget.fieldTypes = [];
+    extension.fieldTypes = [];
 
     options.fieldTypes.forEach(function (fieldType) {
       if (fieldType === 'Entries') {
-        widget.fieldTypes.push({type: 'Array', items: {type: 'Link', linkType: 'Entry'}});
+        extension.fieldTypes.push({type: 'Array', items: {type: 'Link', linkType: 'Entry'}});
         return;
       }
 
       if (fieldType === 'Assets') {
-        widget.fieldTypes.push({type: 'Array', items: {type: 'Link', linkType: 'Asset'}});
+        extension.fieldTypes.push({type: 'Array', items: {type: 'Link', linkType: 'Asset'}});
         return;
       }
 
       if (fieldType === 'Symbols') {
-        widget.fieldTypes.push({type: 'Array', items: {type: 'Symbol'}});
+        extension.fieldTypes.push({type: 'Array', items: {type: 'Symbol'}});
         return;
       }
 
       if (fieldType === 'Entry' || fieldType === 'Asset') {
-        widget.fieldTypes.push({type: 'Link', linkType: fieldType});
+        extension.fieldTypes.push({type: 'Link', linkType: fieldType});
         return;
       }
 
-      widget.fieldTypes.push({type: fieldType});
+      extension.fieldTypes.push({type: fieldType});
     });
   }
 
-  return {widget: widget};
+  return {widget: extension};
 }
 
-describe('Widget', function () {
-  let context, options, widget, http;
+describe('Extension', function () {
+  let context, options, extension, http;
 
   beforeEach(function () {
     http = {
@@ -66,13 +66,13 @@ describe('Widget', function () {
           id: 456
         };
 
-        widget = new Widget(options, context);
+        extension = new Extension(options, context);
       });
 
       it('it calls the http.put method with the expected arguments', function () {
-        let payload = buildWidgetPayload({src: options.src});
+        let payload = buildExtensionPayload({src: options.src});
 
-        return widget.save().then(function () {
+        return extension.save().then(function () {
           expect(http.put).to.have.been.calledWith(
             {
               spaceId: options.spaceId,
@@ -86,11 +86,11 @@ describe('Widget', function () {
 
       describe('when a version has been provided', function () {
         it('it calls the http.put method including the version', function () {
-          let payload = buildWidgetPayload({src: options.src});
+          let payload = buildExtensionPayload({src: options.src});
 
           options = _.extend(options, {version: 66});
 
-          return widget.save().then(function () {
+          return extension.save().then(function () {
             expect(http.put).to.have.been.calledWith(
               {
                 spaceId: options.spaceId,
@@ -112,13 +112,13 @@ describe('Widget', function () {
           srcdoc: 'the-bundle'
         };
 
-        widget = new Widget(options, context);
+        extension = new Extension(options, context);
       });
 
-      it('it saves a widget with the srcdoc property set', function () {
-        let payload = buildWidgetPayload({srcdoc: options.srcdoc});
+      it('it saves a extension with the srcdoc property set', function () {
+        let payload = buildExtensionPayload({srcdoc: options.srcdoc});
 
-        return widget.save().then(function () {
+        return extension.save().then(function () {
           expect(http.post).to.have.been.calledWith(
             {
               spaceId: options.spaceId,
@@ -137,13 +137,13 @@ describe('Widget', function () {
           src: 'the-url'
         };
 
-        widget = new Widget(options, context);
+        extension = new Extension(options, context);
       });
 
-      it('it saves a widget with the src property set', function () {
-        let payload = buildWidgetPayload({src: options.src});
+      it('it saves a extension with the src property set', function () {
+        let payload = buildExtensionPayload({src: options.src});
 
-        return widget.save().then(function () {
+        return extension.save().then(function () {
           expect(http.post).to.have.been.calledWith(
             {
               spaceId: options.spaceId,
@@ -167,13 +167,13 @@ describe('Widget', function () {
         'Symbol', 'Text', 'Date', 'Integer', 'Number', 'Location', 'Boolean', 'Object',
         'Entry', 'Asset', 'Symbols', 'Assets', 'Entries'
       ].forEach(function (fieldType) {
-        it(`saves the widget with the fieldType ${fieldType}`, function () {
+        it(`saves the extension with the fieldType ${fieldType}`, function () {
           options.fieldTypes = [fieldType];
-          let payload = buildWidgetPayload(options);
+          let payload = buildExtensionPayload(options);
 
-          widget = new Widget(options, context);
+          extension = new Extension(options, context);
 
-          return widget.save().then(function () {
+          return extension.save().then(function () {
             expect(http.post).to.have.been.calledWith(
               {
                 spaceId: options.spaceId,
@@ -185,14 +185,14 @@ describe('Widget', function () {
         });
       });
 
-      it('saves the widget with multiple fieldTypes', function () {
+      it('saves the extension with multiple fieldTypes', function () {
         options.fieldTypes = ['Symbol', 'Date', 'Symbols', 'Asset', 'Entries'];
 
-        let payload = buildWidgetPayload(options);
+        let payload = buildExtensionPayload(options);
 
-        widget = new Widget(options, context);
+        extension = new Extension(options, context);
 
-        return widget.save().then(function () {
+        return extension.save().then(function () {
           expect(http.post).to.have.been.calledWith(
             {
               spaceId: options.spaceId,
@@ -203,12 +203,12 @@ describe('Widget', function () {
         });
       });
 
-      it('saves the widget with multiple fieldTypes (capitalizes lowercase)', function () {
+      it('saves the extension with multiple fieldTypes (capitalizes lowercase)', function () {
         options.fieldTypes = ['symbol', 'entries'];
 
-        widget = new Widget(options, context);
+        extension = new Extension(options, context);
 
-        return widget.save().then(function () {
+        return extension.save().then(function () {
           expect(http.post).to.have.been.calledWith(
             {
               spaceId: options.spaceId,
@@ -236,11 +236,11 @@ describe('Widget', function () {
         id: 456
       };
 
-      widget = new Widget(options, context);
+      extension = new Extension(options, context);
     });
 
     it('calls the http module with the expected arguments', function () {
-      return widget.read().then(function () {
+      return extension.read().then(function () {
         expect(http.get).to.have.been.calledWith(
           {
             spaceId: options.spaceId,
@@ -259,11 +259,11 @@ describe('Widget', function () {
         id: 456
       };
 
-      widget = new Widget(options, context);
+      extension = new Extension(options, context);
     });
 
     it('calls the http module with the expected arguments', function () {
-      return widget.delete().then(function () {
+      return extension.delete().then(function () {
         expect(http.delete).to.have.been.calledWith(
           {
             spaceId: options.spaceId,
@@ -277,7 +277,7 @@ describe('Widget', function () {
     it('returns the return value from the http.delete method', function () {
       http.delete.returns(Bluebird.resolve('delete-response'));
 
-      return widget.delete().then(function (response) {
+      return extension.delete().then(function (response) {
         expect(response).to.eql('delete-response');
       });
     });
