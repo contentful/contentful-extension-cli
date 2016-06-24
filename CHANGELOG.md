@@ -1,6 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.3.0 - 2016-06-24
+### Added
+- Enable CI
+
+### Changed
+- Use "extension" in code and as a class name
+- Use "extension.json" instead of "widget.json"
+- Use "extension" in commands (names, help, messages)
+- Update readme to use "extension"
+- Update project and command names
+
 ## v1.2.0 - 2016-06-23
 ### Added
 - Document programmatic usage
