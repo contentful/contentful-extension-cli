@@ -2,5 +2,5 @@
   "id": "lol",
   "name": "lol",
   "fieldTypes": ["Symbol"],
-  "srcdoc": "build/widget.html"
+  "srcdoc": "build/extension.html"
 }
