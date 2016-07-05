@@ -40,7 +40,7 @@ function buildExtensionPayload (options) {
     });
   }
 
-  return {widget: extension};
+  return { extension };
 }
 
 describe('Extension', function () {
@@ -213,7 +213,7 @@ describe('Extension', function () {
             {
               spaceId: options.spaceId,
               payload: {
-                widget: {
+                extension: {
                   src: 'the-url',
                   fieldTypes: [
                     {type: 'Symbol'},
