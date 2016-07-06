@@ -19,7 +19,7 @@ app.use(function (req, res, next) {
   }
 });
 
-app.all('/spaces/:space/widgets/:id', function (req, res, next) {
+app.all('/spaces/:space/extensions/:id', function (req, res, next) {
   if (req.params.id === 'not-found') {
     let error = buildError('NotFound', 'The resource can\'t be found.');
 
@@ -41,10 +41,10 @@ app.all('/spaces/:space/widgets/:id', function (req, res, next) {
   next();
 });
 
-app.post('/spaces/:space/widgets', function (req, res) {
-  if (_.get(req, 'body.widget.fieldTypes[0].type') === 'Lol') {
+app.post('/spaces/:space/extensions', function (req, res) {
+  if (_.get(req, 'body.extension.fieldTypes[0].type') === 'Lol') {
     return respondWithValidationError(res, {
-      path: ['widget', 'fieldTypes'],
+      path: ['extension', 'fieldTypes'],
       expected: ['Symbol', 'Yolo']
     });
   }
@@ -56,19 +56,19 @@ app.post('/spaces/:space/widgets', function (req, res) {
   res.end();
 });
 
-app.put('/spaces/:space/widgets/:id', function (req, res) {
+app.put('/spaces/:space/extensions/:id', function (req, res) {
   let extension = store[req.params.id];
   let versionInHeader = req.headers['x-contentful-version'];
   let xVersion = versionInHeader ? parseInt(versionInHeader, 10) : undefined;
 
   if (!extension) {
     if (req.params.id === 'too-long-name') {
-      return respondWithValidationError(res, {path: ['widget', 'name']});
+      return respondWithValidationError(res, {path: ['extension', 'name']});
     } else if (req.params.id === 'so-invalid') {
       return respondWithValidationError(res);
     } else if (req.params.id === 'too-big') {
       return respondWithValidationError(res, {
-        path: ['widget', 'srcdoc'],
+        path: ['extension', 'srcdoc'],
         max: 7777
       });
     }
@@ -107,7 +107,7 @@ app.put('/spaces/:space/widgets/:id', function (req, res) {
   }
 });
 
-app.get('/spaces/:space/widgets', function (req, res) {
+app.get('/spaces/:space/extensions', function (req, res) {
   let extensions = _.filter(store, {sys: {space: {sys: {id: req.params.space}}}});
   let response = { sys: {type: 'Array'}, total: extensions.length, items: extensions };
 
@@ -125,7 +125,7 @@ app.get('/spaces/:space/widgets', function (req, res) {
   res.end();
 });
 
-app.get('/spaces/:space/widgets/:id', function (req, res) {
+app.get('/spaces/:space/extensions/:id', function (req, res) {
   let extension = store[req.params.id];
 
   res.status(200);
@@ -133,7 +133,7 @@ app.get('/spaces/:space/widgets/:id', function (req, res) {
   res.end();
 });
 
-app.delete('/spaces/:space/widgets/:id', function (req, res) {
+app.delete('/spaces/:space/extensions/:id', function (req, res) {
   let extension = store[req.params.id];
   let xVersion = parseInt(req.headers['x-contentful-version'], 10);
 

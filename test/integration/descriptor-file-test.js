@@ -92,13 +92,13 @@ describe('Descriptor file', function () {
           .then(function (stdout) {
             let payload = JSON.parse(stdout);
 
-            expect(payload.widget.name).to.eql(customDescriptor.name);
-            expect(payload.widget.src).to.eql(customDescriptor.src);
-            expect(payload.widget.fieldTypes).to.eql([
+            expect(payload.extension.name).to.eql(customDescriptor.name);
+            expect(payload.extension.src).to.eql(customDescriptor.src);
+            expect(payload.extension.fieldTypes).to.eql([
               {type: 'Symbol'},
               {type: 'Array', items: {type: 'Link', linkType: 'Asset'}}
             ]);
-            expect(payload.widget.sidebar).to.be.true();
+            expect(payload.extension.sidebar).to.be.true();
             expect(payload.sys.id).to.eql(customDescriptor.id);
             expect(payload.sys.space.sys.id).to.eql('123');
           });
@@ -203,10 +203,10 @@ describe('Descriptor file', function () {
           .then(function (stdout) {
             let payload = JSON.parse(stdout);
 
-            expect(payload.widget.name).to.eql(descriptor.name);
-            expect(payload.widget.src).to.eql(descriptor.src);
+            expect(payload.extension.name).to.eql(descriptor.name);
+            expect(payload.extension.src).to.eql(descriptor.src);
             expect(payload.sys.id).to.eql(descriptor.id);
-            expect(payload.widget.fieldTypes).to.eql([
+            expect(payload.extension.fieldTypes).to.eql([
               {type: 'Symbol'},
               {type: 'Array', items: {type: 'Link', linkType: 'Asset'}}
             ]);
@@ -251,7 +251,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.srcdoc).to.eql(bundle);
+              expect(payload.extension.srcdoc).to.eql(bundle);
               expect(payload.sys.id).to.eql(descriptor.id);
             });
           });
@@ -280,8 +280,8 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget).to.not.have.ownProperty('srcdoc');
-              expect(payload.widget.src).to.eql('foo.com');
+              expect(payload.extension).to.not.have.ownProperty('srcdoc');
+              expect(payload.extension.src).to.eql('foo.com');
               expect(payload.sys.id).to.eql(descriptor.id);
             });
           });
@@ -307,7 +307,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.src).to.eql('foo.com');
+              expect(payload.extension.src).to.eql('foo.com');
               expect(payload.sys.id).to.eql(descriptor.id);
             });
         });
@@ -332,7 +332,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.name).to.eql('doge');
+              expect(payload.extension.name).to.eql('doge');
               expect(payload.sys.id).to.eql(descriptor.id);
             });
         });
@@ -357,7 +357,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.fieldTypes).to.eql([
+              expect(payload.extension.fieldTypes).to.eql([
                 {type: 'Number'},
                 {type: 'Date'}
               ]);
@@ -412,7 +412,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.srcdoc).to.eql(b);
+              expect(payload.extension.srcdoc).to.eql(b);
               expect(payload.sys.id).to.eql(descriptor.id);
             });
           });
@@ -438,8 +438,8 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget).to.not.have.ownProperty('src');
-              expect(payload.widget.srcdoc).to.eql(b);
+              expect(payload.extension).to.not.have.ownProperty('src');
+              expect(payload.extension.srcdoc).to.eql(b);
               expect(payload.sys.id).to.eql(descriptor.id);
             });
           });
@@ -467,7 +467,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.src).to.eql(descriptor.src);
+              expect(payload.extension.src).to.eql(descriptor.src);
               expect(payload.sys.id).to.eql('88');
             });
         });
@@ -492,7 +492,7 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.sidebar).to.be.false();
+              expect(payload.extension.sidebar).to.be.false();
             });
         });
       }
@@ -602,19 +602,19 @@ describe('Descriptor file', function () {
             .then(function (stdout) {
               let payload = JSON.parse(stdout);
 
-              expect(payload.widget.name).to.eql(customDescriptor.name);
-              expect(payload.widget.src).to.eql(customDescriptor.src);
-              expect(payload.widget.fieldTypes).to.eql([
+              expect(payload.extension.name).to.eql(customDescriptor.name);
+              expect(payload.extension.src).to.eql(customDescriptor.src);
+              expect(payload.extension.fieldTypes).to.eql([
                 {type: 'Link', linkType: 'Asset'},
                 {type: 'Text'}
               ]);
-              expect(payload.widget.sidebar).to.be.true();
+              expect(payload.extension.sidebar).to.be.true();
               expect(payload.sys.id).to.eql(customDescriptor.id);
               expect(payload.sys.space.sys.id).to.eql('123');
 
-              expect(payload.widget.name).not.to.eql(descriptor.name);
-              expect(payload.widget.src).not.to.eql(descriptor.src);
-              expect(payload.widget.fieldTypes).not.to.eql(descriptor.fieldTypes);
+              expect(payload.extension.name).not.to.eql(descriptor.name);
+              expect(payload.extension.src).not.to.eql(descriptor.src);
+              expect(payload.extension.fieldTypes).not.to.eql(descriptor.fieldTypes);
               expect(payload.sys.id).not.to.eql(descriptor.id);
             });
           });
