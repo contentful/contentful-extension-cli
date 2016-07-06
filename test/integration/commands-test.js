@@ -127,7 +127,7 @@ describe('Commands', function () {
         .then(assert.fail)
         .catch(function (error) {
           expect(error.error.code).to.eq(1);
-          expect(error.stderr).to.match(/no value given for: name, fieldTypes, src or srcdoc/);
+          expect(error.stderr).to.match(/you're missing the following parameters: name, fieldTypes, src or srcdoc/);
         });
     });
 
@@ -531,28 +531,28 @@ describe('Commands', function () {
 
     it('fails if no --name option is provided', function () {
       let cmd = 'update --space-id 123 --id 456 --src foo.com --field-types Symbol --host http://localhost:3000';
-      let msg = 'no value given for: name';
+      let msg = `you're missing the following parameters: name`;
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('fails if no --id option is provided', function () {
       let cmd = 'update --space-id 123 --name lol --src foo.com --field-types Symbol --host http://localhost:3000';
-      let msg = 'no value given for: id';
+      let msg = `you're missing the following parameters: id`;
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('fails if no --srcdoc or --src options are provided', function () {
       let cmd = 'update --space-id 123 --name lol --field-types Symbol --id 123 --force --host http://localhost:3000';
-      let msg = 'no value given for: src or srcdoc';
+      let msg = `you're missing the following parameters: src or srcdoc`;
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
 
     it('fails if no --field-types option is provided', function () {
       let cmd = 'update --space-id 123 --name lol --src lol.com --id 123 --host http://localhost:3000';
-      let msg = 'no value given for: fieldTypes';
+      let msg = `you're missing the following parameters: fieldTypes`;
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
@@ -631,7 +631,7 @@ describe('Commands', function () {
 
     it('returns an error if neither descriptor or options are present', function () {
       let cmd = 'update --space-id 123 --name lol --id 456';
-      let msg = 'no value given for: fieldTypes, src or srcdoc';
+      let msg = `you're missing the following parameters: fieldTypes, src or srcdoc`;
 
       return expectErrorAndMessage(cmd, execOptions, msg);
     });
