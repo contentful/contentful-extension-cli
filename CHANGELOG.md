@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 - 2016-07-06
+### Changed
+- Mention "extension.json" file in error messages
+- Adopt the new payload and endpoints
+
 ## v1.3.0 - 2016-06-24
 ### Added
 - Enable CI
