@@ -40,16 +40,24 @@ Use this subcommand to read the extension payload from Contentful. With this sub
 contentful-extension update [options]
 ```
 Use this subcommand to modify an existing extension.
- 
+
 **delete an extension**
 
 ```
 contentful-extension delete [options]
 ```
 
-Use this subcommand to pertmanently delete an extension from Contentful.
+Use this command to pertmanently delete an extension from Contentful.
 
 For a full list of all the options available on every subcommand use the `--help` option.
+
+**list all extensions**
+
+```
+contentful-extension list [options]
+```
+
+Use this subcommand to see what extensions are created for a given space.
 
 ## Misc
 
@@ -79,7 +87,7 @@ When using `srcdoc` property, an extension is considered internally hosted. A fi
 
 If a relative value of `srcdoc` property is used, the path is resolved from a directory in which the descriptor file is placed or a working directory when using the `--srcdoc` command line option.
 
-Use `src` property when you want to be as flexible as possible with your development and deployment process. Use `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation). 
+Use `src` property when you want to be as flexible as possible with your development and deployment process. Use `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation).
 
 #### Specifying extension properties
 
