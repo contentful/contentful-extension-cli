@@ -47,7 +47,7 @@ Use this subcommand to modify an existing extension.
 contentful-extension delete [options]
 ```
 
-Use this command to pertmanently delete an extension from Contentful.
+Use this subcommand to permanently delete an extension from Contentful.
 
 For a full list of all the options available on every subcommand use the `--help` option.
 
