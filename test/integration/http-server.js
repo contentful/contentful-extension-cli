@@ -165,7 +165,9 @@ function createExtension (spaceId, id, payload) {
         sys: {
           id: spaceId
         }
-      }
+      },
+      createdAt: (new Date()).toString(),
+      updatedAt: (new Date()).toString()
     }
   });
 }

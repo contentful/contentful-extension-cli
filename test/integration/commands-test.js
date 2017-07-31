@@ -43,7 +43,7 @@ describe('Commands', function () {
     execOptions = {env: env};
   });
 
-  ['create', 'update', 'delete', 'read'].forEach(function (subcommand) {
+  ['create', 'update', 'delete', 'read', 'list'].forEach(function (subcommand) {
     describe('when the token is not defined on the environment', function () {
       it(`${subcommand} fails`, function () {
         delete execOptions.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN;
@@ -999,6 +999,34 @@ describe('Commands', function () {
         })
         .then(function (stdout) {
           expect(stdout).to.include('Successfully deleted extension');
+        });
+    });
+  });
+
+  describe('List', function () {
+    it('gives a message when no extensions are created yet', function () {
+      let listCmd = `list --space-id 123 --host http://localhost:3000`;
+
+      return command(listCmd, execOptions)
+        .then(function (stdout) {
+          expect(stdout).to.include('No extensions for this space created yet.');
+        });
+    });
+
+    it('lists created extentions', function () {
+      let createCmd = 'create --space-id 123 --name lol --src lol.com --field-types Symbol --id 456 --host http://localhost:3000';
+      let listCmd = `list --space-id 123 --host http://localhost:3000`;
+
+      return command(createCmd, execOptions)
+        .then(function () {
+          return command(listCmd, execOptions);
+        })
+        .then(function (stdout) {
+          expect(stdout).to.include('lol');
+          expect(stdout).to.include('456');
+        })
+        .catch(function (err) {
+          console.log(err);
         });
     });
   });

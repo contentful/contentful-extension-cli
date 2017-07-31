@@ -10,7 +10,8 @@ var yargs = require('yargs');
 yargs.command('read')
   .command('update')
   .command('delete')
-  .command('create');
+  .command('create')
+  .command('list');
 
 var argv = yargs.argv;
 var argvCommand = argv._[0];
