@@ -87,7 +87,9 @@ When using `srcdoc` property, an extension is considered internally hosted. A fi
 
 If a relative value of `srcdoc` property is used, the path is resolved from a directory in which the descriptor file is placed or a working directory when using the `--srcdoc` command line option.
 
-Use `src` property when you want to be as flexible as possible with your development and deployment process. Use `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation).
+Use the `src` property when you want to be as flexible as possible with your development and deployment process. Use the `srcdoc` property if you don't want to host anything on your own and can accept the drawbacks (need for a non-standard build, filesize limitation). Note that using `srcdoc` is [not supported][caniuse-srcdoc] on Internet Explorer and Microsof Edge.
+
+[caniuse-srcdoc]: https://caniuse.com/#feat=iframe-srcdoc
 
 #### Specifying extension properties
 
