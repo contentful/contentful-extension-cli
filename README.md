@@ -1,3 +1,9 @@
+# This repository is deprecated. There is no further support or maintenence planned.
+
+All functionality was merged into the [Contentful CLI](https://github.com/contentful/contentful-cli).
+
+---
+
 ## Introduction [![Build Status](https://travis-ci.org/contentful/contentful-extension-cli.svg?branch=master)](https://travis-ci.org/contentful/contentful-extension-cli)
 
 Contentful allows customers to customize and tailor the UI using custom made extensions. Extensions have to be uploaded to Contentful in order to be able to use them in the UI.
