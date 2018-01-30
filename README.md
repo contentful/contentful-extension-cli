@@ -1,6 +1,6 @@
-# This repository is deprecated. There is no further support or maintenence planned.
+# Deprecation notice
 
-All functionality was merged into the [Contentful CLI](https://github.com/contentful/contentful-cli).
+This repository was deprecated as all functionality was migrated to the [Contentful CLI](https://github.com/contentful/contentful-cli).
 
 ---
 
